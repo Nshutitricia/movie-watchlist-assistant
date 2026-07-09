@@ -1,11 +1,9 @@
 from sqlmodel import SQLModel, create_engine, Session
-from app.config import DATABASE_PATH
+from app.config import settings
 
-engine = create_engine(f"sqlite:///{DATABASE_PATH}", echo=False)
+engine = create_engine(settings.database_url, echo=True)
 
-
-def init_db():
-    SQLModel.metadata.create_all(engine)
+SQLModel.metadata.create_all(engine)
 
 
 def get_session():

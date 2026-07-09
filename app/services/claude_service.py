@@ -1,12 +1,12 @@
 from anthropic import Anthropic
 from sqlmodel import Session
 
-from app.config import ANTHROPIC_API_KEY, CLAUDE_MODEL
+from app.config import settings
 from app.prompts.system_prompt import SYSTEM_PROMPT
 from app.tools.tool_definitions import TOOLS
 from app.services import watchlist_service as ws
 
-client = Anthropic(api_key=ANTHROPIC_API_KEY)
+client = Anthropic(api_key=settings.anthropic_api_key)
 
 
 def run_tool(tool_name: str, tool_input: dict, session: Session):
@@ -42,7 +42,7 @@ def get_response(messages: list[dict], session: Session) -> str:
 
     while True:
         response = client.messages.create(
-            model=CLAUDE_MODEL,
+            model=settings.claude_model,
             max_tokens=1024,
             system=SYSTEM_PROMPT,
             tools=TOOLS,
